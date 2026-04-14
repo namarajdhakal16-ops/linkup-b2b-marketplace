@@ -1,0 +1,26 @@
+{
+  "overview": "LinkUp.com is a B2B industrial marketplace platform connecting buyers and suppliers. Features a public dashboard with live metrics, buyer and supplier portals with full onboarding, RFQ management, pricing calculators with Indian Rupee fee logic, analytics dashboards, an admin panel, and a floating AI chatbot assistant.",
+  "features": [
+    "Public dashboard with top buyers, suppliers, and products",
+    "Buyer portal with catalog, RFQ management, and supplier directory",
+    "Supplier portal with product management, RFQ leads, and billing",
+    "Multi-step buyer and supplier onboarding wizards",
+    "Pricing calculators for all buyer tiers and supplier sizes (INR)",
+    "Admin dashboard with user verification and fee management",
+    "Floating AI chatbot with fee calculator and portal guidance",
+    "Internet Identity authentication with role-based access control",
+    "Analytics and reporting with interactive charts"
+  ],
+  "category": "marketplace",
+  "tags": [
+    "b2b",
+    "marketplace",
+    "industrial",
+    "rfq",
+    "procurement",
+    "buyer-supplier",
+    "dashboard",
+    "analytics"
+  ],
+  "last_updated": "2026-04-14T05:02:25.696Z"
+}

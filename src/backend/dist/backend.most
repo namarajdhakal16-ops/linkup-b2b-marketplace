@@ -1,0 +1,95 @@
+// Version: 1.0.0
+type BuyerTier__622221519 = {#tier1; #tier2; #tier3; #tier4};
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type FeedbackStatus__262040378 = {#closed; #new_; #reviewed};
+type Feedback__34322984 =
+  {
+    createdAt : Timestamp__301639476;
+    id : Nat;
+    message : Text;
+    rating : Nat;
+    status : FeedbackStatus__262040378;
+    userId : UserId__338793988;
+    userType : Text
+  };
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type List__415060402<T> = List__790383201<T>;
+type List__790383201<T> =
+  {
+    var blockIndex : Nat__490723111;
+    var blocks : [var [var ?T]];
+    var elementIndex : Nat__490723111
+  };
+type Map__158565046<K, V> = Map__297112838<K, V>;
+type Map__297112838<K, V> =
+  {var root : Node__46230540<K, V>; var size : Nat__490723111};
+type Map__605269027<K, V> = Map__158565046<K, V>;
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type ProductStatus__655178360 = {#active; #inactive};
+type Product__750902660 =
+  {
+    category : Text;
+    certifications : Text;
+    createdAt : Timestamp__301639476;
+    description : Text;
+    id : Nat;
+    imageUrl : ?Text;
+    name : Text;
+    price : Float;
+    specifications : Text;
+    status : ProductStatus__655178360;
+    stock : Nat;
+    supplierId : UserId__200281261
+  };
+type RFQStatus__408884766 = {#accepted; #pending; #quoted; #rejected};
+type RFQ__101638150 =
+  {
+    buyerId : UserId__472838739;
+    createdAt : Timestamp__301639476;
+    id : Nat;
+    productId : Nat;
+    quantity : Nat;
+    quoteAmount : ?Float;
+    requiredDate : Text;
+    specialRequirements : Text;
+    status : RFQStatus__408884766;
+    supplierId : UserId__472838739
+  };
+type SupplierSize__422403021 = {#large; #medium; #small};
+type Timestamp__301639476 = Int;
+type UserId__1043627770 = UserId__158757552;
+type UserId__158757552 = Principal;
+type UserId__200281261 = UserId__158757552;
+type UserId__338793988 = UserId__158757552;
+type UserId__472838739 = UserId__158757552;
+type UserProfile__277265826 =
+  {
+    buyerTier : ?BuyerTier__622221519;
+    createdAt : Timestamp__301639476;
+    email : Text;
+    id : UserId__1043627770;
+    name : Text;
+    role : UserRole__41952412;
+    supplierSize : ?SupplierSize__422403021;
+    verified : Bool
+  };
+type UserRole__41952412 = {#admin; #both; #buyer; #supplier};
+actor {
+  stable feedbackState :
+    {feedbacks : List__415060402<Feedback__34322984>; var nextId : Nat};
+  stable productsState :
+    {var nextId : Nat; products : List__415060402<Product__750902660>};
+  stable rfqsState :
+    {var nextId : Nat; rfqs : List__415060402<RFQ__101638150>};
+  stable usersState :
+    {
+      var nextId : Nat;
+      users : Map__605269027<Principal, UserProfile__277265826>
+    }
+};

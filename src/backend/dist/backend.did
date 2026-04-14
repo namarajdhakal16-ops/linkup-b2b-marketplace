@@ -1,0 +1,135 @@
+type UserRole = 
+ variant {
+   admin;
+   both;
+   buyer;
+   supplier;
+ };
+type UserProfile = 
+ record {
+   buyerTier: opt BuyerTier;
+   createdAt: Timestamp;
+   email: text;
+   id: UserId;
+   name: text;
+   role: UserRole;
+   supplierSize: opt SupplierSize;
+   verified: bool;
+ };
+type UserId = principal;
+type Timestamp = int;
+type SupplierSize = 
+ variant {
+   large;
+   medium;
+   small;
+ };
+type Result_2 = 
+ variant {
+   err: text;
+   ok: UserProfile;
+ };
+type Result_1 = 
+ variant {
+   err: text;
+   ok: nat;
+ };
+type Result = 
+ variant {
+   err: text;
+   ok;
+ };
+type RFQStatus = 
+ variant {
+   accepted;
+   pending;
+   quoted;
+   rejected;
+ };
+type RFQ = 
+ record {
+   buyerId: UserId;
+   createdAt: Timestamp;
+   id: nat;
+   productId: nat;
+   quantity: nat;
+   quoteAmount: opt float64;
+   requiredDate: text;
+   specialRequirements: text;
+   status: RFQStatus;
+   supplierId: UserId;
+ };
+type ProductStatus = 
+ variant {
+   active;
+   inactive;
+ };
+type Product = 
+ record {
+   category: text;
+   certifications: text;
+   createdAt: Timestamp;
+   description: text;
+   id: nat;
+   imageUrl: opt text;
+   name: text;
+   price: float64;
+   specifications: text;
+   status: ProductStatus;
+   stock: nat;
+   supplierId: UserId;
+ };
+type FeedbackStatus = 
+ variant {
+   closed;
+   new;
+   reviewed;
+ };
+type Feedback = 
+ record {
+   createdAt: Timestamp;
+   id: nat;
+   message: text;
+   rating: nat;
+   status: FeedbackStatus;
+   userId: UserId;
+   userType: text;
+ };
+type BuyerTier = 
+ variant {
+   tier1;
+   tier2;
+   tier3;
+   tier4;
+ };
+service : {
+  addProduct: (name: text, category: text, price: float64, stock: nat,
+   description: text, imageUrl: opt text, specifications: text,
+   certifications: text) -> (Result_1);
+  calculateBuyerFee: (tier: BuyerTier, amount: float64) -> (float64) query;
+  calculateMultiRoleFee: (buyerTier: BuyerTier, supplierSize: SupplierSize,
+   buyerAmount: float64, supplierSales: float64) -> (float64) query;
+  calculateSupplierFee: (size: SupplierSize, salesVolume: float64) ->
+   (float64) query;
+  deleteProduct: (id: nat) -> (Result);
+  getAllFeedback: () -> (vec Feedback) query;
+  getAllRFQs: () -> (vec RFQ) query;
+  getAllUsers: () -> (vec UserProfile) query;
+  getIncomingRFQs: () -> (vec RFQ) query;
+  getMyProducts: () -> (vec Product) query;
+  getMyProfile: () -> (opt UserProfile) query;
+  getMyRFQs: () -> (vec RFQ) query;
+  getProducts: () -> (vec Product) query;
+  registerUser: (name: text, email: text, role: UserRole, buyerTier:
+   opt BuyerTier, supplierSize: opt SupplierSize) -> (Result_2);
+  respondToRFQ: (rfqId: nat, quoteAmount: float64) -> (Result);
+  submitFeedback: (userType: text, rating: nat, message: text) -> (Result_1);
+  submitRFQ: (supplierId: principal, productId: nat, quantity: nat,
+   requiredDate: text, specialRequirements: text) -> (Result_1);
+  updateFeedbackStatus: (id: nat, status: text) -> (Result);
+  updateProduct: (id: nat, price: float64, stock: nat, status: text) ->
+   (Result);
+  updateRFQStatus: (rfqId: nat, status: text) -> (Result);
+  updateUserRole: (userId: principal, role: UserRole) -> (Result);
+  verifyUser: (userId: principal) -> (Result);
+}
